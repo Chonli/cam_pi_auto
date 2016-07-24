@@ -4,6 +4,10 @@ ROOT_FOLDER="/opt/cam_pi_auto/photo"
 FILE_NAME=photo_`date +%H-%M`.jpg
 FOLDER_NAME=day_`date +%Y-%m-%d`
 
+if [ ! -d "$ROOT_FOLDER" ]; then
+	mkdir "$ROOT_FOLDER"
+fi
+
 if [ ! -d "$ROOT_FOLDER/$FOLDER_NAME" ]; then
 	mkdir "$ROOT_FOLDER/$FOLDER_NAME"
 fi
