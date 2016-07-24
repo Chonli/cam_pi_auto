@@ -1,0 +1,16 @@
+#!/bin/bash
+
+ROOT_FOLDER="/opt/cam_pi_auto/"
+FOLDER_NAME=day_`date -d 'now - 1 day' +%Y-%m-%d`
+
+cd "$ROOT_FOLDER"photo
+
+rm -rf timelap
+
+cp -R $FOLDER_NAME timelap
+cd timelap
+
+ls *.jpg | awk 'BEGIN{ a=0 }{ printf "mv %s myfile%04d.jpg\n", $0, a++ }' | bash
+
+avconv -y -r 10 -i myfile%4d.jpg -r 10 -vcodec libx264 -q:v 3  -vf crop=3280:2464,scale=1920:1080 timevid.mp4;
+cp timevid.mp4 /var/www/html/

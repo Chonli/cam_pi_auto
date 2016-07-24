@@ -1,0 +1,14 @@
+#!/bin/bash
+
+ROOT_FOLDER="/opt/cam_pi_auto/photo"
+FILE_NAME=photo_`date +%H-%M`.jpg
+FOLDER_NAME=day_`date +%Y-%m-%d`
+
+if [ ! -d "$ROOT_FOLDER/$FOLDER_NAME" ]; then
+	mkdir "$ROOT_FOLDER/$FOLDER_NAME"
+fi
+
+raspistill -o "$ROOT_FOLDER/$FOLDER_NAME/$FILE_NAME"
+jpegoptim -m50 --strip-all "$ROOT_FOLDER/$FOLDER_NAME/$FILE_NAME"
+cp "$ROOT_FOLDER/$FOLDER_NAME/$FILE_NAME" /var/www/html/photo.jpg
+

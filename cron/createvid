@@ -1,0 +1,5 @@
+#generate vid 
+SHELL=/bin/bash
+ 
+00 1 * * * root /opt/cam_auto_pi/createvid
+

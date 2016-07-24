@@ -1,0 +1,5 @@
+#take photo 
+SHELL=/bin/bash
+
+*/4 * * * * root /opt/cam_pi_auto/takephoto
+
