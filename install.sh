@@ -6,6 +6,9 @@ cp ./cron/* /etc/cron.d/
 
 cp ./www/* /var/www/html/
 
-mkdir $DIR_SCRIPT
+if [ ! -d "$DIR_SCRIPT" ]; then
+	mkdir "$DIR_SCRIPT"
+fi
+
 cp ./script/* $DIR_SCRIPT
 
