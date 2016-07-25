@@ -1,8 +1,11 @@
 #!/bin/bash
 
 ROOT_FOLDER="/opt/cam_pi_auto/photo"
-FILE_NAME=photo_`date +%H-%M`.jpg
-FOLDER_NAME=day_`date +%Y-%m-%d`
+WWW_FOLDER="/var/www/html"
+CUR_HOUR=`date +%H-%M`
+FILE_NAME="photo_$CUR_HOUR.jpg"
+CUR_DATE=`date +%Y-%m-%d`
+FOLDER_NAME="day_$CUR_DATE"
 
 if [ ! -d "$ROOT_FOLDER" ]; then
 	mkdir "$ROOT_FOLDER"
@@ -12,7 +15,11 @@ if [ ! -d "$ROOT_FOLDER/$FOLDER_NAME" ]; then
 	mkdir "$ROOT_FOLDER/$FOLDER_NAME"
 fi
 
+#Take photo
 raspistill -o "$ROOT_FOLDER/$FOLDER_NAME/$FILE_NAME"
 jpegoptim -m50 --strip-all "$ROOT_FOLDER/$FOLDER_NAME/$FILE_NAME"
-cp "$ROOT_FOLDER/$FOLDER_NAME/$FILE_NAME" /var/www/html/photo.jpg
+cp "$ROOT_FOLDER/$FOLDER_NAME/$FILE_NAME" "$WWW_FOLDER/photo.jpg"
+
+#Update photo hour in web page
+sed -i -e 's/<!--Heure begin-->.*<!--Heure fin-->/<!--Heure begin-->'$CUR_HOUR'<!--Heure fin-->/' "$WWW_FOLDER/index.html"
 

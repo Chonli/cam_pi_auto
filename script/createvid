@@ -1,10 +1,13 @@
 #!/bin/bash
 
-ROOT_FOLDER="/opt/cam_pi_auto/"
-FOLDER_NAME=day_`date -d 'now - 1 day' +%Y-%m-%d`
+ROOT_FOLDER="/opt/cam_pi_auto"
+WWW_FOLDER="/var/www/html"
+WK_DATE=`date -d 'now - 1 day' +%Y-%m-%d`
+FOLDER_NAME=day_$WK_DATE
 
-cd "$ROOT_FOLDER"photo
+cd "$ROOT_FOLDER/photo"
 
+#create timelaps video
 rm -rf timelap
 
 cp -R $FOLDER_NAME timelap
@@ -13,4 +16,7 @@ cd timelap
 ls *.jpg | awk 'BEGIN{ a=0 }{ printf "mv %s myfile%04d.jpg\n", $0, a++ }' | bash
 
 avconv -y -r 10 -i myfile%4d.jpg -r 10 -vcodec libx264 -q:v 3  -vf crop=3280:2464,scale=1920:1080 timevid.mp4;
-cp timevid.mp4 /var/www/html/
+cp timevid.mp4 $WWW_FOLDER
+
+#Update photo hour in web page
+sed -i -e 's/<!--Date begin-->.*<!--Date fin-->/<!--Date begin-->'$WK_DATE'<!--Date fin-->/' "$WWW_FOLDER/index.html"
