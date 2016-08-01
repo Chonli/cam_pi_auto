@@ -15,6 +15,12 @@ cd timelap
 
 ls *.jpg | awk 'BEGIN{ a=0 }{ printf "mv %s myfile%04d.jpg\n", $0, a++ }' | bash
 
+#find half day photo
+NB_FILES=`ls . | wc -l`
+((NUM_FILE=$NB_FILES/2))
+IMG_NAME="myfile0$NUM_FILE.jpg"
+cp "$IMG_NAME" "$WWW_FOLDER/poster.jpg"
+
 avconv -y -r 10 -i myfile%4d.jpg -r 10 -vcodec libx264 -q:v 3  -vf crop=3280:2464,scale=1920:1080 timevid.mp4;
 cp timevid.mp4 $WWW_FOLDER
 
