@@ -1,5 +1,5 @@
 #generate vid 
 SHELL=/bin/bash
  
-00 1 * * * root /opt/cam_pi_o/createvid
+00 1 * * * root /opt/cam_pi_auto/createvid
 
